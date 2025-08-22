@@ -1,7 +1,14 @@
 package com.alves.vitor.DigitalAccounts.domain.entity;
 
-import java.time.LocalDate;
+import com.alves.vitor.DigitalAccounts.domain.enums.PersonGender;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Builder
+@AllArgsConstructor
 public class Person {
     private String cpf;
     private String rg;
@@ -9,12 +16,13 @@ public class Person {
     private char gender;
     private LocalDate birthDate;
     private String ocupation;
+    private LocalDateTime modifiedAt;
 
-    public Person(String cpf, String rg, String name, char gender, LocalDate birthDate, String ocupation) {
-        this.cpf = cpf.replace(".", "").replace("-", "");
-        this.rg = rg.replace(".", "").replace("-", "");
+    public Person(String cpf, String rg, String name, PersonGender gender, LocalDate birthDate, String ocupation) {
+        this.cpf = cpf != null ? cpf.replaceAll("[.-]","") : null;
+        this.rg = rg != null ? rg.replaceAll("[.-]","") : null;
         this.name = name;
-        this.gender = gender;
+        this.gender = gender.get();
         this.birthDate = birthDate;
         this.ocupation = ocupation;
     }
@@ -65,5 +73,13 @@ public class Person {
 
     public void setOcupation(String ocupation) {
         this.ocupation = ocupation;
+    }
+
+    public LocalDateTime getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(LocalDateTime modifiedAt) {
+        this.modifiedAt = modifiedAt;
     }
 }

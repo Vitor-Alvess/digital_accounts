@@ -1,6 +1,9 @@
 package com.alves.vitor.DigitalAccounts.domain.entity;
 
+import com.alves.vitor.DigitalAccounts.domain.enums.AccountType;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class Account {
     private String agency;
@@ -10,15 +13,17 @@ public class Account {
     private char currency;
     private String holderRg;
     private String holderCpf;
+    private LocalDateTime creationDate;
 
-    public Account(String agency, String number, char type, BigDecimal balance, char currency, String holderRg, String holderCpf) {
+    public Account(String agency, String number, AccountType type, BigDecimal balance, char currency, String holderRg, String holderCpf) {
         this.agency = agency.replace("/", "");
         this.number = number;
-        this.type = type;
+        this.type = type.get().charAt(0);
         this.balance = balance;
         this.currency = currency;
         this.holderRg = holderRg.replace(".", "").replace("-", "");
         this.holderCpf = holderCpf.replace(".", "").replace("-", "");
+        creationDate = LocalDateTime.now();
     }
 
     public String getAgency() {
@@ -75,5 +80,13 @@ public class Account {
 
     public void setHolderCpf(String holderCpf) {
         this.holderCpf = holderCpf;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 }

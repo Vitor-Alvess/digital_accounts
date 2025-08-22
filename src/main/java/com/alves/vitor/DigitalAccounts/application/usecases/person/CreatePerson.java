@@ -11,6 +11,6 @@ public class CreatePerson {
     }
     
     public Person create(Person person) {
-        return repository.register(person);
+        return repository.create(person);
     }
 }

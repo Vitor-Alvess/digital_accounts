@@ -1,5 +1,7 @@
 package com.alves.vitor.DigitalAccounts.domain.entity;
 
+import com.alves.vitor.DigitalAccounts.domain.enums.OperationType;
+
 import java.math.BigDecimal;
 
 public class Operation {
@@ -8,10 +10,10 @@ public class Operation {
     private char type;
     private BigDecimal value;
 
-    public Operation(String accountAgency, String accountNumber, char type, BigDecimal value) {
+    public Operation(String accountAgency, String accountNumber, OperationType type, BigDecimal value) {
         this.accountAgency = accountAgency.replace("/", "");
         this.accountNumber = accountNumber;
-        this.type = type;
+        this.type = type.get().charAt(0);
         this.value = value;
     }
 

@@ -13,7 +13,7 @@ public interface PersonRepository {
 
     List<Person> findByOcupations(String... ocupations);
 
-    Person register(Person person);
+    Person create(Person person);
 
     Person update(String cpf, Person newPerson);
 

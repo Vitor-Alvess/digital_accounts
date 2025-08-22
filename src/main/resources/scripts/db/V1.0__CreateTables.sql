@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS person (
     gender CHAR NOT NULL,
     birth DATE NOT NULL,
     ocupation VARCHAR(100) NOT NULL,
+    modified_at TIMESTAMP DEFAULT NOW(),
+    active BOOLEAN NOT NULL DEFAULT TRUE,
     PRIMARY KEY(id)
 );
 
@@ -17,6 +19,7 @@ CREATE TABLE IF NOT EXISTS account (
     ammount NUMERIC(10,2) NOT NULL,
     currency CHAR NOT NULL,
     personid INT NOT NULL,
+    active BOOLEAN NOT NULL DEFAULT TRUE,
     PRIMARY KEY (id),
     FOREIGN KEY (personid) REFERENCES person(id)
 );

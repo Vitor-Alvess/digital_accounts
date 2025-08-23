@@ -107,7 +107,7 @@ public class AccountRepositoryImpl implements AccountRepository {
                 WHERE
                     a.agency = ? AND
                     a.number = ? AND
-                    p.active = true;
+                    a.active = true;
                 """;
 
         return jdbcTemplate.query(query, (rs, rowNum) -> {

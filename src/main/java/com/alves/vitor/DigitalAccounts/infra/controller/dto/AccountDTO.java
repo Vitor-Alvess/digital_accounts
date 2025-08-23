@@ -43,9 +43,16 @@ public class AccountDTO {
     }
 
     public AccountDTO(String agency, String number, BigDecimal totalAmount, char currency) {
-        this.agency = agency;
-        this.number = number;
+        setAgency(agency);
+        setNumber(number);
         this.totalAmount = totalAmount;
+        this.currency = currency == 'D' ? AccountCurrency.DOLAR : AccountCurrency.REAL;
+    }
+
+    public AccountDTO(String agency, String number, char type, char currency) {
+        setAgency(agency);
+        setNumber(number);
+        this.type = type == 'C' ? AccountType.CORRENTE : AccountType.POUPANCA;
         this.currency = currency == 'D' ? AccountCurrency.DOLAR : AccountCurrency.REAL;
     }
 

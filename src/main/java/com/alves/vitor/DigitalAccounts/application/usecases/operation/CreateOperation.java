@@ -5,6 +5,7 @@ import com.alves.vitor.DigitalAccounts.application.gateways.OperationRepository;
 import com.alves.vitor.DigitalAccounts.domain.entity.Account;
 import com.alves.vitor.DigitalAccounts.domain.entity.Operation;
 import com.alves.vitor.DigitalAccounts.domain.enums.OperationType;
+import com.alves.vitor.DigitalAccounts.domain.exceptions.AccountNotFoundException;
 
 import java.math.BigDecimal;
 
@@ -22,7 +23,7 @@ public class CreateOperation {
         Account isPersisted = accountRepository.findByAgencyAndNumber(account.getAgency(), account.getNumber());
 
         if (isPersisted == null) {
-            throw new RuntimeException("Account not found");
+            throw new AccountNotFoundException();
         }
 
         BigDecimal operationAmount = operation.getAmount();

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriBuilderFactory;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -54,7 +53,11 @@ public class OperationController {
     }
 
     @GetMapping("/intervalo/{dates}")
-    public ResponseEntity<List<OperationDTO>> getByIntervalo(@PathVariable String dates) {
+    public ResponseEntity<List<OperationDTO>> getByInterval(@PathVariable String dates) {
+        if (dates.contains(";") || dates.contains(",")) {
+            throw new IllegalArgumentException("Para separar as datas a serem buscadas, utilise '&' entre elas");
+        }
+
         List<Operation> result = listOperations.findByInterval(dates.split("&"));
 
         return ResponseEntity.ok(result.stream().map(mapper::toDTO).toList());

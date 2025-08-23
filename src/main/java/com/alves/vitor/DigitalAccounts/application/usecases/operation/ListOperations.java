@@ -26,9 +26,9 @@ public class ListOperations {
         return repository.findByDate(date);
     }
 
-    public List<Operation> findByInterval (String... interval) {
-        LocalDate start = LocalDate.parse(interval[0]);
-        LocalDate end = LocalDate.parse(interval[1]);
+    public List<Operation> findByInterval (String... intervals) {
+        LocalDate start = LocalDate.parse(intervals[0]);
+        LocalDate end = LocalDate.parse(intervals[1]);
 
         return repository.findByInterval(start, end);
     }

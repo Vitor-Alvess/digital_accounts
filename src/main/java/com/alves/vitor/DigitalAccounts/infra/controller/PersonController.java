@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriBuilder;
 
 import java.net.URI;
 import java.util.List;
@@ -56,6 +55,9 @@ public class PersonController {
 
     @GetMapping("/profissao/{ocupations}")
     public ResponseEntity<List<PersonDTO>> listByOcupations(@PathVariable String ocupations) {
+        if (ocupations.contains(",")) {
+            throw new IllegalArgumentException("Para pesquisar por mais de uma profissão, utilize '&' entre cada uma.");
+        }
         return ResponseEntity.ok(listPeople.findByOcupation(ocupations.split("&")).
                 stream().map(mapper::toDTO).toList());
     }

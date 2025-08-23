@@ -102,3 +102,7 @@ CREATE TABLE IF NOT EXISTS operation (
 Todos os scripts DML estão localizados nos arquivos `repositories`, 
 na pasta `src/main/java/com/alves/vitor/DigitalAccounts/infra/persistence` </br> 
 Foi utilizado JDBC no lugar convencional de JPA para demonstrar consultas puras em SQL.
+
+## Endpoints
+O sistema está com o Swagger integrado, basta visitar ``http://localhost:8080/digital-accounts/api/swagger-ui/index.html`` </br>
+para se ter noção das requisições e respostas esperadas.

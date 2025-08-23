@@ -8,6 +8,8 @@ import com.alves.vitor.DigitalAccounts.domain.entity.Account;
 import com.alves.vitor.DigitalAccounts.infra.controller.dto.AccountDTO;
 import com.alves.vitor.DigitalAccounts.infra.controller.dto.request.AccountRequestCreateDTO;
 import com.alves.vitor.DigitalAccounts.infra.controller.dto.request.AccountRequestUpdateDTO;
+import com.alves.vitor.DigitalAccounts.infra.controller.dto.response.account.AccountResponseCreateDTO;
+import com.alves.vitor.DigitalAccounts.infra.controller.dto.response.account.AccountResponseDeleteDTO;
 import com.alves.vitor.DigitalAccounts.infra.controller.mappers.AccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +57,7 @@ public class AccountController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<AccountDTO> create(@RequestBody AccountRequestCreateDTO dto) {
+    public ResponseEntity<AccountResponseCreateDTO> create(@RequestBody AccountRequestCreateDTO dto) {
         Account newAccount = createAccount.create(mapper.toDomain(dto));
 
         URI uri = ServletUriComponentsBuilder
@@ -75,7 +77,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/deletar/{agency}/{number}")
-    public ResponseEntity<AccountDTO> delete(@PathVariable String agency, @PathVariable String number) {
+    public ResponseEntity<AccountResponseDeleteDTO> delete(@PathVariable String agency, @PathVariable String number) {
         Account deleted = deleteAccount.delete(agency, number);
 
         return ResponseEntity.ok(mapper.toResponseDeleteDTO(deleted));

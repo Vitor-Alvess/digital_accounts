@@ -150,7 +150,7 @@ public class PersonRepositoryImpl implements PersonRepository {
                     active = false,
                     modified_at = NOW()
                 WHERE
-                    personid = (SELECT id FROM public.person WHERE cpf = ?);
+                    personid = (SELECT id FROM public.person p WHERE cpf = ? AND p.active = true);
                 """;
 
         jdbcTemplate.update(queryAccounts, cpf);
@@ -162,7 +162,8 @@ public class PersonRepositoryImpl implements PersonRepository {
                     active = false, 
                     modified_at = NOW()
                 WHERE 
-                    cpf = ?
+                    cpf = ? AND 
+                    active = true
                 RETURNING id;
                 """;
 

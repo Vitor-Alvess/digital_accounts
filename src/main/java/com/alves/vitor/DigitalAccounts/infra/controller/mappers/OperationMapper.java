@@ -28,7 +28,7 @@ public class OperationMapper {
 
         return new OperationDTO(
                 new AccountDTO(account.getAgency(), account.getNumber(),
-                        account.getTotalAmount(), account.getCurrency()),
+                        account.getType(), account.getCurrency()),
                 domain.getType(),
                 domain.getAmount(),
                 domain.getTime()

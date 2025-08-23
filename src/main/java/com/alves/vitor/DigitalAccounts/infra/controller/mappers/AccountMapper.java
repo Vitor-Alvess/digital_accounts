@@ -50,7 +50,7 @@ public class AccountMapper {
         );
     }
 
-    public AccountDTO toResponseCreateDTO(Account domain) {
+    public AccountResponseCreateDTO toResponseCreateDTO(Account domain) {
         PersonDTO personDTO = new  PersonDTO(domain.getHolder().getName(), domain.getHolder().getCpf());
 
         return new AccountResponseCreateDTO(
@@ -64,7 +64,7 @@ public class AccountMapper {
         );
     }
 
-    public AccountDTO toResponseDeleteDTO(Account domain) {
+    public AccountResponseDeleteDTO toResponseDeleteDTO(Account domain) {
         PersonDTO personDTO = new  PersonDTO(domain.getHolder().getName(), domain.getHolder().getCpf());
 
         return new AccountResponseDeleteDTO(

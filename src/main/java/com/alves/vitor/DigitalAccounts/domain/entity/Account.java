@@ -32,15 +32,15 @@ public class Account extends Entity{
     }
 
     public Account(String agency, String number, AccountType type, AccountCurrency currency) {
-        this.agency = agency;
-        this.number = number;
+        this.agency = agency.replaceAll("[.-]", "");
+        this.number = number.replaceAll("[.-]", "");
         this.type = type.get();
         this.currency = currency.get();
     }
 
     public Account(String agency, String number) {
-        this.agency = agency;
-        this.number = number;
+        this.agency = agency.replaceAll("[.-]", "");
+        this.number = number.replaceAll("[.-]", "");
     }
 
     public String getAgency() {

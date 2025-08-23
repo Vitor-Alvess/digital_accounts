@@ -1,4 +1,4 @@
-package com.alves.vitor.DigitalAccounts.infra.controller.dto.response;
+package com.alves.vitor.DigitalAccounts.infra.controller.dto.response.person;
 
 import com.alves.vitor.DigitalAccounts.infra.controller.dto.PersonDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -11,8 +11,8 @@ public class PersonResponseCreateDTO extends PersonDTO {
     @JsonProperty("data_criacao")
     private LocalDateTime creationDateTime;
 
-    public PersonResponseCreateDTO(String name, String cpf, String rg, LocalDateTime creationDateTime) {
-        super(name, cpf, rg);
+    public PersonResponseCreateDTO(String name, String cpf, LocalDateTime creationDateTime) {
+        super(name, cpf);
         this.creationDateTime = creationDateTime;
     }
 

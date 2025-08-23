@@ -6,10 +6,15 @@ import com.alves.vitor.DigitalAccounts.application.usecases.person.ListPeople;
 import com.alves.vitor.DigitalAccounts.application.usecases.person.UpdatePerson;
 import com.alves.vitor.DigitalAccounts.domain.entity.Person;
 import com.alves.vitor.DigitalAccounts.infra.controller.dto.PersonDTO;
+import com.alves.vitor.DigitalAccounts.infra.controller.dto.request.PersonRequestUpdateDTO;
 import com.alves.vitor.DigitalAccounts.infra.controller.mappers.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -53,14 +58,21 @@ public class PersonController {
     }
 
     @PostMapping("/cadastrar")
-    public PersonDTO create(@RequestBody PersonDTO personDTO) {
+    public ResponseEntity<PersonDTO> create(@RequestBody PersonDTO personDTO) {
         Person created = createPerson.create(mapper.toDomain(personDTO));
-        return mapper.toResponseCreationDTO(created);
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.getID())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(mapper.toResponseCreationDTO(created));
     }
 
     @PutMapping("/atualizar/{cpf}")
-    public PersonDTO update(@RequestBody PersonDTO personDTO, @PathVariable String cpf) {
-        Person newPerson = updatePerson.update(cpf, mapper.toDomain(personDTO));
+    public PersonDTO update(@RequestBody PersonRequestUpdateDTO personDTO, @PathVariable String cpf) {
+        Person newPerson = updatePerson.update(cpf, mapper.toDomain(cpf, personDTO));
         return mapper.toResponseUpdateDTO(newPerson);
     }
 

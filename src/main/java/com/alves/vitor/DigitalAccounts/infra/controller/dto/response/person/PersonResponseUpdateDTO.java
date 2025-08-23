@@ -1,4 +1,4 @@
-package com.alves.vitor.DigitalAccounts.infra.controller.dto.response;
+package com.alves.vitor.DigitalAccounts.infra.controller.dto.response.person;
 
 import com.alves.vitor.DigitalAccounts.infra.controller.dto.PersonDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;

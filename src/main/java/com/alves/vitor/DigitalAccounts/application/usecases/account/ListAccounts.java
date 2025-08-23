@@ -12,8 +12,8 @@ public class ListAccounts {
         this.repository = repository;
     }
 
-    public List<Account> findAll() {
-        return repository.findAll();
+    public List<Account> findByAgency(String agency) {
+        return repository.findByAgency(agency);
     }
 
     public List<Account> findByCpf(String cpf) {

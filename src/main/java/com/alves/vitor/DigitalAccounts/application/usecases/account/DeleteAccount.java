@@ -10,7 +10,7 @@ public class DeleteAccount {
         this.repository = repository;
     }
 
-    public Account delete(Account account) {
-        return repository.delete(account);
+    public Account delete(String agency, String number) {
+        return repository.delete(agency, number);
     }
 }

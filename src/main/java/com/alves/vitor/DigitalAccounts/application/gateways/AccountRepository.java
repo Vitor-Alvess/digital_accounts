@@ -5,7 +5,7 @@ import com.alves.vitor.DigitalAccounts.domain.entity.Account;
 import java.util.List;
 
 public interface AccountRepository {
-    List<Account> findAll();
+    List<Account> findByAgency(String agency);
 
     List<Account> findByCpf(String cpf);
 
@@ -15,5 +15,5 @@ public interface AccountRepository {
 
     Account update(Account newAccount);
 
-    Account delete(Account account);
+    Account delete(String agency, String number);
 }

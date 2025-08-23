@@ -21,8 +21,8 @@ public class PersonRepositoryImpl implements PersonRepository {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Person> rowMapper =
             (rs, rowNum) -> Person.builder()
+                    .ID(rs.getInt("id"))
                     .cpf(rs.getString("cpf"))
-                    .rg(rs.getString("rg"))
                     .name(rs.getString("name"))
                     .gender(rs.getString("gender").charAt(0))
                     .birthDate(rs.getDate("birth").toLocalDate())
@@ -47,7 +47,7 @@ public class PersonRepositoryImpl implements PersonRepository {
     @Override
     public List<Person> findByName(String name) {
         String query = """
-                SELECT * FROM public.person WHERE name alike ?;
+                SELECT * FROM public.person WHERE name ALIKE ? AND active = true;
                 """;
 
         return jdbcTemplate.query(query, rowMapper, new Object[]{name + '%'}).stream().toList();
@@ -56,7 +56,7 @@ public class PersonRepositoryImpl implements PersonRepository {
     @Override
     public Person findByCpf(String cpf) {
         String query = """
-                SELECT * FROM public.person WHERE cpf = ?;
+                SELECT * FROM public.person WHERE cpf LIKE ? AND active = true;
                 """;
 
         return jdbcTemplate.query(query, rowMapper, cpf).stream().findFirst().orElse(null);
@@ -65,7 +65,7 @@ public class PersonRepositoryImpl implements PersonRepository {
     @Override
     public List<Person> findByOcupations(String... ocupations) {
         String query = """
-                SELECT * FROM public.person WHERE ocupation = ANY(?)
+                SELECT * FROM public.person WHERE ocupation = ANY(?) AND active = true
                 """;
 
         return jdbcTemplate.query(query, ps -> {
@@ -79,8 +79,8 @@ public class PersonRepositoryImpl implements PersonRepository {
     public Person create(Person person) {
         String query = """
                 INSERT INTO
-                    public.person (cpf, rg, "name", gender, birth, ocupation)
-                VALUES (?, ?, ?, ?, ?, ?)
+                    public.person (cpf, "name", gender, birth, ocupation)
+                VALUES (?, ?, ?, ?, ?)
                 RETURNING id;
                 """;
 
@@ -89,11 +89,10 @@ public class PersonRepositoryImpl implements PersonRepository {
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, person.getCpf());
-            ps.setString(2, person.getRg());
-            ps.setString(3, person.getName());
-            ps.setString(4, String.valueOf(person.getGender()));
-            ps.setDate(5, Date.valueOf(person.getBirthDate()));
-            ps.setString(6, person.getOcupation());
+            ps.setString(2, person.getName());
+            ps.setString(3, String.valueOf(person.getGender()));
+            ps.setDate(4, Date.valueOf(person.getBirthDate()));
+            ps.setString(5, person.getOcupation());
 
             return ps;
         }, keyHolder);
@@ -137,11 +136,26 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     @Override
     public Person delete(String cpf) {
+        String queryAccounts = """
+                UPDATE
+                    public.account
+                SET
+                    active = false,
+                    modified_at = NOW()
+                WHERE
+                    personid = (SELECT id FROM public.person WHERE cpf = ?);
+                """;
+
+        jdbcTemplate.update(queryAccounts, cpf);
+
         String query = """
-                UPDATE public.person SET 
+                UPDATE 
+                    public.person
+                SET 
                     active = false, 
                     modified_at = NOW()
-                WHERE cpf = ?
+                WHERE 
+                    cpf = ?
                 RETURNING id;
                 """;
 

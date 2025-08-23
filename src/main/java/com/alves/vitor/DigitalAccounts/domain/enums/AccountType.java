@@ -1,16 +1,16 @@
 package com.alves.vitor.DigitalAccounts.domain.enums;
 
 public enum AccountType {
-    SAVINGS("POUPANÇA"),
-    CHECKINGS("CORRENTE");
+    POUPANCA('P'),
+    CORRENTE('C');
 
-    private String description;
+    private char description;
 
-    AccountType(String description) {
+    AccountType(char description) {
         this.description = description;
     }
 
-    public String get() {
+    public char get() {
         return description;
     }
 }

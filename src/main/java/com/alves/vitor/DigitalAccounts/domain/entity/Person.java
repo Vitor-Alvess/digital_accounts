@@ -1,30 +1,38 @@
 package com.alves.vitor.DigitalAccounts.domain.entity;
 
 import com.alves.vitor.DigitalAccounts.domain.enums.PersonGender;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Builder
-@AllArgsConstructor
-public class Person {
+@SuperBuilder
+public class Person extends Entity {
     private String cpf;
-    private String rg;
     private String name;
     private char gender;
     private LocalDate birthDate;
     private String ocupation;
     private LocalDateTime modifiedAt;
 
-    public Person(String cpf, String rg, String name, PersonGender gender, LocalDate birthDate, String ocupation) {
+    public Person(String cpf, String name, PersonGender gender, LocalDate birthDate, String ocupation) {
         this.cpf = cpf != null ? cpf.replaceAll("[.-]","") : null;
-        this.rg = rg != null ? rg.replaceAll("[.-]","") : null;
         this.name = name;
         this.gender = gender.get();
         this.birthDate = birthDate;
         this.ocupation = ocupation;
+    }
+
+    public Person(String cpf, String name, PersonGender gender, String ocupation) {
+        this.cpf = cpf;
+        this.name = name;
+        this.gender = gender.get();
+        this.ocupation = ocupation;
+    }
+
+    public Person(String cpf, String name) {
+        this.cpf = cpf;
+        this.name = name;
     }
 
     public String getCpf() {
@@ -33,14 +41,6 @@ public class Person {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
-    }
-
-    public String getRg() {
-        return rg;
-    }
-
-    public void setRg(String rg) {
-        this.rg = rg;
     }
 
     public String getName() {

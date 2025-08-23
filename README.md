@@ -56,7 +56,7 @@ Regras de negócio:
 - O câmbio da moeda na conta interfere no valor armazenado por ela
 
 ## Diagrama Entidade-Relacionamento
-![img.png](img.png)
+![img_1.png](img_1.png)
 
 ## Scripts DDL
 ```

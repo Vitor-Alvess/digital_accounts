@@ -4,6 +4,7 @@ import com.alves.vitor.DigitalAccounts.application.gateways.AccountRepository;
 import com.alves.vitor.DigitalAccounts.domain.entity.Account;
 import com.alves.vitor.DigitalAccounts.domain.enums.AccountCurrency;
 import com.alves.vitor.DigitalAccounts.domain.enums.AccountType;
+import com.alves.vitor.DigitalAccounts.domain.exceptions.AccountNotFoundException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -19,7 +20,7 @@ public class UpdateAccount {
         Account persistedAccount = repository.findByAgencyAndNumber(newAccount.getAgency(), newAccount.getNumber());
 
         if (persistedAccount == null) {
-            throw new RuntimeException("Account not found");
+            throw new AccountNotFoundException();
         }
 
         char persistedAccountCurrency = persistedAccount.getCurrency();
@@ -29,7 +30,7 @@ public class UpdateAccount {
 
         if (persistedAccountCurrency != newAccountCurrency) {
             if (persistedAccountCurrency == AccountCurrency.DOLAR.get()) {
-                newAccount.setTotalAmount(oldAmmount.divide(BigDecimal.valueOf(5.40), RoundingMode.UNNECESSARY));
+                newAccount.setTotalAmount(oldAmmount.divide(BigDecimal.valueOf(5.40), RoundingMode.HALF_EVEN));
             }
             else {
                 newAccount.setTotalAmount(oldAmmount.multiply(BigDecimal.valueOf(5.40)));

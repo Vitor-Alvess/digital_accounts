@@ -1,6 +1,8 @@
 package com.alves.vitor.DigitalAccounts.domain.entity;
 
 import com.alves.vitor.DigitalAccounts.domain.enums.PersonGender;
+import com.alves.vitor.DigitalAccounts.domain.exceptions.InvalidDataException;
+import com.alves.vitor.DigitalAccounts.utils.StringUtilities;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
@@ -16,7 +18,15 @@ public class Person extends Entity {
     private LocalDateTime modifiedAt;
 
     public Person(String cpf, String name, PersonGender gender, LocalDate birthDate, String ocupation) {
-        this.cpf = cpf != null ? cpf.replaceAll("[.-]","") : null;
+        if (StringUtilities.isEmpty(cpf) ||
+            StringUtilities.isEmpty(name) ||
+            gender == null ||
+            (birthDate == null || LocalDate.now().isBefore(birthDate)) ||
+            StringUtilities.isEmpty(ocupation)) {
+            throw new InvalidDataException();
+        }
+
+        this.cpf = cpf.replaceAll("[.-]","");
         this.name = name;
         this.gender = gender.get();
         this.birthDate = birthDate;

@@ -1,6 +1,7 @@
 package com.alves.vitor.DigitalAccounts.infra.controller.dto;
 
 import com.alves.vitor.DigitalAccounts.domain.enums.OperationType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -19,6 +20,7 @@ public class OperationDTO {
     private BigDecimal amount;
 
     @JsonProperty("data_hora")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private LocalDateTime time;
 
     public OperationDTO(AccountDTO accountDTO, char operationType, BigDecimal amount, LocalDateTime time) {

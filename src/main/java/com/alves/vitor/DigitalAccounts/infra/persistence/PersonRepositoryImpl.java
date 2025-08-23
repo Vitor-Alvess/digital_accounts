@@ -118,7 +118,8 @@ public class PersonRepositoryImpl implements PersonRepository {
                     ocupation = ?,
                     modified_at = NOW()
                 WHERE
-                    cpf = ?
+                    cpf = ? AND
+                    active = true
                 RETURNING id;
                 """;
 

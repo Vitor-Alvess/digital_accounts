@@ -11,16 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class OperationMapper {
 
-    public Operation toDomain(OperationDTO dto) {
-        AccountDTO accountDTO = dto.getAccountDTO();
-
-        return new Operation(
-                new Account(accountDTO.getAgency(), accountDTO.getNumber()),
-                dto.getOperationType(),
-                dto.getAmount()
-        );
-    }
-
     public Operation toDomain(OperationRequestCreateDTO dto) {
         OperationAccountRequestCreateDTO accountDTO = dto.getAccountDTO();
 

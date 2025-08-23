@@ -1,6 +1,7 @@
 package com.alves.vitor.DigitalAccounts.domain.entity;
 
 import com.alves.vitor.DigitalAccounts.domain.enums.OperationType;
+import com.alves.vitor.DigitalAccounts.domain.exceptions.InvalidDataException;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
@@ -13,14 +14,11 @@ public class Operation extends Entity{
     private BigDecimal amount;
     private LocalDateTime time;
 
-    public Operation(Account account, OperationType type, BigDecimal amount, LocalDateTime time) {
-        this.account = account;
-        this.type = type.get();
-        this.amount = amount;
-        this.time = time;
-    }
-
     public Operation(Account account, OperationType type, BigDecimal amount) {
+        if (account == null || type == null || amount == null) {
+            throw new InvalidDataException();
+        }
+
         this.account = account;
         this.type = type.get();
         this.amount = amount;

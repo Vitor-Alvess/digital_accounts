@@ -27,13 +27,16 @@ public class CreateOperation {
 
         BigDecimal operationAmount = operation.getAmount();
 
+        BigDecimal actualAmount = isPersisted.getTotalAmount();
+        BigDecimal newAmount = actualAmount;
         if (operation.getType() == OperationType.DEPOSITO.get()) {
-            isPersisted.getTotalAmount().add(operationAmount);
+            newAmount = newAmount.add(operationAmount);
         }
         else {
-            isPersisted.getTotalAmount().subtract(operationAmount);
+            newAmount = newAmount.subtract(operationAmount);
         }
 
+        isPersisted.setTotalAmount(newAmount);
         Account accountWithNewAmount = accountRepository.update(isPersisted);
 
         operation.setAccount(accountWithNewAmount);

@@ -15,7 +15,7 @@ public class AccountDTO {
     @JsonProperty("agencia")
     private String agency;
 
-    @JsonProperty("numero_conta")
+    @JsonProperty("numero")
     private String number;
 
     @JsonProperty("tipo")
@@ -63,7 +63,7 @@ public class AccountDTO {
 
     public void setAgency(String agency) {
         if (agency != null) {
-            String cleanStr = agency.replaceAll("[.]", "");
+            String cleanStr = agency.replaceAll("[.\\-]", "");
 
             if (!cleanStr.matches("\\d{5}")) {
                 throw new IllegalArgumentException("Agência inválida! A Agência deve conter apenas 5 dígitos");

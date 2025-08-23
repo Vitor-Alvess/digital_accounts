@@ -15,19 +15,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccountMapper {
 
-    public Account toDomain(AccountDTO dto) {
-        PersonDTO accountHolder = dto.getHolder();
-
-        return new Account(
-                dto.getAgency(),
-                dto.getNumber(),
-                dto.getType(),
-                dto.getTotalAmount(),
-                dto.getCurrency(),
-                new Person(accountHolder.getCpf(), accountHolder.getName())
-        );
-    }
-
     public Account toDomain(AccountRequestCreateDTO dto) {
         PersonAccountRequestCreateDTO personDTO = dto.getAccountHolder();
 

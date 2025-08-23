@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS person (
     id SERIAL,
-    cpf VARCHAR(12) UNIQUE NOT NULL,
+    cpf VARCHAR(12) NOT NULL,
     "name" VARCHAR(50) NOT NULL,
     gender CHAR NOT NULL,
     birth DATE NOT NULL,

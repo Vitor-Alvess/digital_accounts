@@ -7,6 +7,8 @@ import com.alves.vitor.DigitalAccounts.application.usecases.person.UpdatePerson;
 import com.alves.vitor.DigitalAccounts.domain.entity.Person;
 import com.alves.vitor.DigitalAccounts.infra.controller.dto.PersonDTO;
 import com.alves.vitor.DigitalAccounts.infra.controller.dto.request.PersonRequestUpdateDTO;
+import com.alves.vitor.DigitalAccounts.infra.controller.dto.response.person.PersonResponseDeleteDTO;
+import com.alves.vitor.DigitalAccounts.infra.controller.dto.response.person.PersonResponseUpdateDTO;
 import com.alves.vitor.DigitalAccounts.infra.controller.mappers.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,24 +39,25 @@ public class PersonController {
     }
 
     @GetMapping("/all")
-    public List<PersonDTO> listAll() {
-        return listPeople.findAll().stream().map(mapper::toDTO).toList();
+    public ResponseEntity<List<PersonDTO>> listAll() {
+        return ResponseEntity.ok(listPeople.findAll().stream().map(mapper::toDTO).toList());
     }
 
     @GetMapping("/nome/{name}")
-    public List<PersonDTO> listByName(@PathVariable String name) {
-        return listPeople.findByName(name).stream().map(mapper::toDTO).toList();
+    public ResponseEntity<List<PersonDTO>> listByName(@PathVariable String name) {
+        return ResponseEntity.ok(listPeople.findByName(name).stream().map(mapper::toDTO).toList());
     }
 
     @GetMapping("/cpf/{cpf}")
-    public PersonDTO getByCpf(@PathVariable String cpf) {
+    public ResponseEntity<PersonDTO> getByCpf(@PathVariable String cpf) {
         Person person = listPeople.findByCpf(cpf);
-        return person != null ? mapper.toDTO(person) : null;
+        return ResponseEntity.ok(person != null ? mapper.toDTO(person) : null);
     }
 
     @GetMapping("/profissao/{ocupations}")
-    public List<PersonDTO> listByOcupations(@PathVariable String ocupations) {
-        return listPeople.findByOcupation(ocupations.split("&")).stream().map(mapper::toDTO).toList();
+    public ResponseEntity<List<PersonDTO>> listByOcupations(@PathVariable String ocupations) {
+        return ResponseEntity.ok(listPeople.findByOcupation(ocupations.split("&")).
+                stream().map(mapper::toDTO).toList());
     }
 
     @PostMapping("/cadastrar")
@@ -71,14 +74,14 @@ public class PersonController {
     }
 
     @PutMapping("/atualizar/{cpf}")
-    public PersonDTO update(@RequestBody PersonRequestUpdateDTO personDTO, @PathVariable String cpf) {
+    public ResponseEntity<PersonResponseUpdateDTO> update(@RequestBody PersonRequestUpdateDTO personDTO, @PathVariable String cpf) {
         Person newPerson = updatePerson.update(cpf, mapper.toDomain(cpf, personDTO));
-        return mapper.toResponseUpdateDTO(newPerson);
+        return ResponseEntity.ok(mapper.toResponseUpdateDTO(newPerson));
     }
 
     @DeleteMapping("/deletar/{cpf}")
-    public PersonDTO delete (@PathVariable String cpf) {
+    public ResponseEntity<PersonResponseDeleteDTO> delete (@PathVariable String cpf) {
         Person deleted = deletePerson.delete(cpf);
-        return mapper.toResponseDeleteDTO(deleted);
+        return ResponseEntity.ok(mapper.toResponseDeleteDTO(deleted));
     }
 }

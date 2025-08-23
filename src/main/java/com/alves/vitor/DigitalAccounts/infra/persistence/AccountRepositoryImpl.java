@@ -58,18 +58,6 @@ public class AccountRepositoryImpl implements AccountRepository {
     public List<Account> findByAgency(String agency) {
         String query = defaultQuery +
                 """
-                SELECT
-                    a.agency AS agency,
-                    a."number" AS number,
-                    a."type" AS type,
-                    a.currency AS currency,
-                    a.totalamount AS totalamount,
-                    p.name AS name
-                FROM
-                    account a
-                INNER JOIN
-                    person p ON
-                    p.id = a.personid
                 WHERE
                     a.agency = ? AND
                     p.active = true
@@ -91,20 +79,8 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public List<Account> findByCpf(String cpf) {
-        String query =
+        String query = defaultQuery +
                 """
-                SELECT
-                    a.agency AS agency,
-                    a."number" AS number,
-                    a."type" AS type,
-                    a.currency AS currency,
-                    a.totalamount AS totalamount,
-                    p.name AS name
-                FROM
-                    "account" a
-                INNER JOIN
-                    person p ON
-                    p.id = a.personid
                 WHERE
                     p.cpf = ? AND
                     p.active = true

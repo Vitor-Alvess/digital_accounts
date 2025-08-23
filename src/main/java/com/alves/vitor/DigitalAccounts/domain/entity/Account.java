@@ -2,6 +2,8 @@ package com.alves.vitor.DigitalAccounts.domain.entity;
 
 import com.alves.vitor.DigitalAccounts.domain.enums.AccountCurrency;
 import com.alves.vitor.DigitalAccounts.domain.enums.AccountType;
+import com.alves.vitor.DigitalAccounts.domain.exceptions.InvalidDataException;
+import com.alves.vitor.DigitalAccounts.utils.StringUtilities;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.experimental.SuperBuilder;
@@ -19,18 +21,11 @@ public class Account extends Entity{
     private Person holder;
     private LocalDateTime modifiedAt;
 
-    public Account(String agency, String number, AccountType type, BigDecimal totalAmount,
-                   AccountCurrency currency, Person holder) {
-
-        this.agency = agency.replace("/", "");
-        this.number = number;
-        this.type = type.get();
-        this.totalAmount = totalAmount;
-        this.currency = currency.get();
-        this.holder = holder;
-    }
-
     public Account(Person holder, AccountType type, AccountCurrency currency) {
+        if (holder == null || type == null || currency == null) {
+            throw new InvalidDataException();
+        }
+
         this.holder = holder;
         this.type = type.get();
         this.currency = currency.get();

@@ -34,7 +34,7 @@ public class OperationController {
 
     @GetMapping("/tipo/{type}")
     public ResponseEntity<List<OperationDTO>> getByType(@PathVariable String type) {
-        List<Operation> result = listOperations.findByType(type.charAt(0));
+        List<Operation> result = listOperations.findByType(type.toUpperCase().charAt(0));
 
         return ResponseEntity.ok(result.stream().map(mapper::toDTO).toList());
     }

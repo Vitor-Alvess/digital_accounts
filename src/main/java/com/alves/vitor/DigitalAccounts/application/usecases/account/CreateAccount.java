@@ -5,6 +5,8 @@ import com.alves.vitor.DigitalAccounts.application.gateways.AccountRepository;
 import com.alves.vitor.DigitalAccounts.application.gateways.PersonRepository;
 import com.alves.vitor.DigitalAccounts.domain.entity.Account;
 import com.alves.vitor.DigitalAccounts.domain.entity.Person;
+import com.alves.vitor.DigitalAccounts.domain.exceptions.InvalidDataException;
+import com.alves.vitor.DigitalAccounts.domain.exceptions.PersonNotFoundException;
 
 import java.util.Random;
 
@@ -21,11 +23,11 @@ public class CreateAccount {
         Person person = personRepository.findByCpf(account.getHolder().getCpf());
 
         if (person == null) {
-            throw new RuntimeException();
+            throw new PersonNotFoundException();
         }
 
         if (!person.getName().equals(account.getHolder().getName())) {
-            throw new RuntimeException("Os dados estão incorretos!");
+            throw new InvalidDataException();
         }
 
         account.getHolder().setID(person.getID());

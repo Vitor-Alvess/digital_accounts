@@ -1,16 +1,43 @@
 package com.alves.vitor.DigitalAccounts.application.usecases.operation;
 
+import com.alves.vitor.DigitalAccounts.application.gateways.AccountRepository;
 import com.alves.vitor.DigitalAccounts.application.gateways.OperationRepository;
+import com.alves.vitor.DigitalAccounts.domain.entity.Account;
 import com.alves.vitor.DigitalAccounts.domain.entity.Operation;
+import com.alves.vitor.DigitalAccounts.domain.enums.OperationType;
+
+import java.math.BigDecimal;
 
 public class CreateOperation {
-    private final OperationRepository repository;
+    private final OperationRepository operationRepository;
+    private final AccountRepository accountRepository;
 
-    public CreateOperation(OperationRepository repository) {
-        this.repository = repository;
+    public CreateOperation(OperationRepository operationRepository, AccountRepository accountRepository) {
+        this.operationRepository = operationRepository;
+        this.accountRepository = accountRepository;
     }
 
     public Operation create(Operation operation) {
-        return repository.register(operation);
+        Account account = operation.getAccount();
+        Account isPersisted = accountRepository.findByAgencyAndNumber(account.getAgency(), account.getNumber());
+
+        if (isPersisted == null) {
+            throw new RuntimeException("Account not found");
+        }
+
+        BigDecimal operationAmount = operation.getAmount();
+
+        if (operation.getType() == OperationType.DEPOSITO.get()) {
+            isPersisted.getTotalAmount().add(operationAmount);
+        }
+        else {
+            isPersisted.getTotalAmount().subtract(operationAmount);
+        }
+
+        Account accountWithNewAmount = accountRepository.update(isPersisted);
+
+        operation.setAccount(accountWithNewAmount);
+
+        return operationRepository.register(operation);
     }
 }

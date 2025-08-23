@@ -28,11 +28,9 @@ CREATE TABLE IF NOT EXISTS account (
 CREATE TABLE IF NOT EXISTS operation (
     id SERIAL,
     accountid INT NOT NULL,
-    personid INT NOT NULL,
     "type" CHAR NOT NULL,
     amount NUMERIC(10, 2),
-    "time" TIMESTAMP NOT NULL,
+    "time" TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id),
-    FOREIGN KEY (accountid) REFERENCES account(id),
-    FOREIGN KEY (personid) REFERENCES person(id)
+    FOREIGN KEY (accountid) REFERENCES account(id)
 );

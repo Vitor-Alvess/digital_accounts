@@ -20,14 +20,14 @@ public class Account extends Entity{
     private LocalDateTime modifiedAt;
 
     public Account(String agency, String number, AccountType type, BigDecimal totalAmount,
-                   AccountCurrency currency, String holderName, String holderCpf) {
+                   AccountCurrency currency, Person holder) {
 
         this.agency = agency.replace("/", "");
         this.number = number;
         this.type = type.get();
         this.totalAmount = totalAmount;
         this.currency = currency.get();
-        holder = new Person(holderCpf, holderName);
+        this.holder = holder;
     }
 
     public Account(Person holder, AccountType type, AccountCurrency currency) {
@@ -41,6 +41,11 @@ public class Account extends Entity{
         this.number = number;
         this.type = type.get();
         this.currency = currency.get();
+    }
+
+    public Account(String agency, String number) {
+        this.agency = agency;
+        this.number = number;
     }
 
     public String getAgency() {

@@ -16,14 +16,15 @@ import org.springframework.stereotype.Component;
 public class AccountMapper {
 
     public Account toDomain(AccountDTO dto) {
+        PersonDTO accountHolder = dto.getHolder();
+
         return new Account(
                 dto.getAgency(),
                 dto.getNumber(),
                 dto.getType(),
                 dto.getTotalAmount(),
                 dto.getCurrency(),
-                dto.getHolder().getName(),
-                dto.getHolder().getCpf()
+                new Person(accountHolder.getCpf(), accountHolder.getName())
         );
     }
 

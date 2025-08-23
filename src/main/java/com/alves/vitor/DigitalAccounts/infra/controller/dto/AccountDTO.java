@@ -42,6 +42,13 @@ public class AccountDTO {
         this.totalAmount = totalAmount;
     }
 
+    public AccountDTO(String agency, String number, BigDecimal totalAmount, char currency) {
+        this.agency = agency;
+        this.number = number;
+        this.totalAmount = totalAmount;
+        this.currency = currency == 'D' ? AccountCurrency.DOLAR : AccountCurrency.REAL;
+    }
+
     public PersonDTO getHolder() {
         return holder;
     }

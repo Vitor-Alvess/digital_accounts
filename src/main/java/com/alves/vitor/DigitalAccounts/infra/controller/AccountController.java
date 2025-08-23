@@ -8,7 +8,6 @@ import com.alves.vitor.DigitalAccounts.domain.entity.Account;
 import com.alves.vitor.DigitalAccounts.infra.controller.dto.AccountDTO;
 import com.alves.vitor.DigitalAccounts.infra.controller.dto.request.AccountRequestCreateDTO;
 import com.alves.vitor.DigitalAccounts.infra.controller.dto.request.AccountRequestUpdateDTO;
-import com.alves.vitor.DigitalAccounts.infra.controller.dto.response.account.AccountResponseCreateDTO;
 import com.alves.vitor.DigitalAccounts.infra.controller.mappers.AccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

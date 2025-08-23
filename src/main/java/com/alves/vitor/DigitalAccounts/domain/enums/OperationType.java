@@ -1,16 +1,16 @@
 package com.alves.vitor.DigitalAccounts.domain.enums;
 
 public enum OperationType {
-    DEPOSIT("Depósito"),
-    WITHDRAW("Saque");
+    DEPOSITO('D'),
+    SAQUE('S');
 
-    private String description;
+    private char description;
 
-    OperationType(String description) {
+    OperationType(char description) {
         this.description = description;
     }
 
-    public String get() {
+    public char get() {
         return description;
     }
 }

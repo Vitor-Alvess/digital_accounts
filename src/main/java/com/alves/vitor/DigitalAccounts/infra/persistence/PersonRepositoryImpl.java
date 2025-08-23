@@ -30,6 +30,8 @@ public class PersonRepositoryImpl implements PersonRepository {
                     .modifiedAt(rs.getTimestamp("modified_at").toLocalDateTime())
                     .build();
 
+    private final String defaultQuery = "SELECT * FROM public.person ";
+
     @Autowired
     public PersonRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -37,8 +39,9 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     @Override
     public List<Person> findAll() {
-        String query = """
-                SELECT * FROM public.person WHERE active = true;
+        String query = defaultQuery +
+                """
+                WHERE active = true;
                 """;
 
         return jdbcTemplate.query(query, rowMapper).stream().toList();
@@ -46,8 +49,9 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     @Override
     public List<Person> findByName(String name) {
-        String query = """
-                SELECT * FROM public.person WHERE name ALIKE ? AND active = true;
+        String query = defaultQuery +
+                 """
+                 WHERE name ALIKE ? AND active = true;
                 """;
 
         return jdbcTemplate.query(query, rowMapper, new Object[]{name + '%'}).stream().toList();
@@ -55,8 +59,9 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     @Override
     public Person findByCpf(String cpf) {
-        String query = """
-                SELECT * FROM public.person WHERE cpf LIKE ? AND active = true;
+        String query = defaultQuery +
+                """
+                WHERE cpf LIKE ? AND active = true;
                 """;
 
         return jdbcTemplate.query(query, rowMapper, cpf).stream().findFirst().orElse(null);
@@ -64,8 +69,9 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     @Override
     public List<Person> findByOcupations(String... ocupations) {
-        String query = """
-                SELECT * FROM public.person WHERE ocupation = ANY(?) AND active = true
+        String query = defaultQuery +
+                """
+                WHERE ocupation = ANY(?) AND active = true
                 """;
 
         return jdbcTemplate.query(query, ps -> {
@@ -173,7 +179,7 @@ public class PersonRepositoryImpl implements PersonRepository {
     }
 
     private Person findById(int id) {
-        String query = "SELECT * FROM public.person WHERE id = ?";
+        String query = defaultQuery + " WHERE id = ?";
 
         return jdbcTemplate.queryForObject(query, rowMapper, id);
     }
